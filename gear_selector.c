@@ -11,25 +11,33 @@
  */
 static errors_t validate_config(const drivetrain_config_t *config)
 {
-    // make sure len is less than MAX_COGS_F_OR_R
+    // make sure len is less than MAX_COGS_F_OR_R and != 0
     if (config->front_cogs_len > MAX_COGS_F_OR_R ||
-        config->rear_cogs_len > MAX_COGS_F_OR_R)
+        config->rear_cogs_len > MAX_COGS_F_OR_R ||
+        config->front_cogs_len == 0 ||
+        config->rear_cogs_len == 0)
     {
         return ERR_INVALID_COG_LEN;
     }
 
-    // make sure cogs are sorted from smallest to largest
+    // Cogs can't be zero
+    if (config->front_cogs[0] == 0 || config->rear_cogs[0] == 0)
+    {
+        return ERR_INVALID_COG;
+    }
+
+    // make sure cogs are sorted from smallest to largest and no duplicates
     for (int i = 1; i < config->front_cogs_len; i++)
     {
-        if (config->front_cogs[i] < config->front_cogs[i - 1])
+        if (config->front_cogs[i] <= config->front_cogs[i - 1])
         {
             return ERR_COGS_NOT_SORTED;
         }
     }
-    // make sure cogs sorted from smallest to largest
+    // make sure cogs sorted from smallest to largest and no duplicates
     for (int i = 1; i < config->rear_cogs_len; i++)
     {
-        if (config->rear_cogs[i] < config->rear_cogs[i - 1])
+        if (config->rear_cogs[i] <= config->rear_cogs[i - 1])
         {
             return ERR_COGS_NOT_SORTED;
         }

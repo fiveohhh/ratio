@@ -15,6 +15,7 @@ typedef enum
     ERR_COGS_NOT_SORTED = 2, /** Cogs were not sorted smallest to largest */
     ERR_INVALID_RATIO   = 3, /** Unable to find a gear combo that can achieve desired ratio */
     ERR_INVALID_GEAR    = 4, /** Gear combo doesn't exist in specified drivetrain_config_t */
+    ERR_INVALID_COG     = 5, /** Cog cannot be `0` in size */
 } errors_t;
 
 typedef struct
